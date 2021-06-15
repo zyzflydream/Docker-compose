@@ -1,0 +1,76 @@
+version: "3.0"
+services:
+  nginx_load:
+    container_name: nginx_load
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - nginx_load_conf:/etc/nginx/
+    networks:
+      - lnmt
+  nginx_static:
+    container_name: nginx_static
+    image: nginx
+    ports:
+      - "81:80"
+    volumes:
+      - nginx_static_html:/usr/share/nginx/html
+      - nginx_static_conf:/etc/nginx
+    networks:
+      - lnmt
+  nginx_dynamic:
+    container_name: nginx_dynamic
+    image: nginx
+    ports:
+      - "82:80"
+    volumes:
+      - nginx_dynamic_conf:/etc/nginx
+    networks:
+      - lnmt
+  mysqlMaster:
+    container_name: mysqlMaster
+    image: mysql:5.7.4
+    ports:
+      - "3306:3306"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=root"
+    volumes:
+      - mysqlMasterconf:/usr/local/mysql
+      - mysqMasterldata:/var/lib/mysql
+    networks:
+      - lnmt
+  mysqlSlave:
+    container_name: mysqlSlave
+    image: mysql:5.7.4
+    ports:
+      - "3307:3306"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=root"
+    volumes:
+      - mysqlSlaveconf:/usr/local/mysql
+      - mysqlSlavedata:/var/lib/mysql
+    networks:
+      - lnmt
+  tomat:
+    container_name: tomcat
+    image: tomcat:8.0
+    ports:
+      - "8080:8080"
+    volumes:
+      - tomcatdata:/usr/local/tomcat
+    networks:
+      - lnmt
+volumes:
+  nginx_load_conf:
+  nginx_static_html:
+  nginx_static_conf:
+  nginx_dynamic_conf:
+  mysqlMasterconf:
+  mysqMasterldata:
+  mysqlSlaveconf:
+  mysqlSlavedata:
+  tomcatdata:
+
+networks:
+  lnmt:
