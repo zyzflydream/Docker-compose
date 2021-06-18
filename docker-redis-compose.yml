@@ -1,0 +1,48 @@
+version : "3.0"
+services:
+  redis_Master:
+    container_name: redis_Master
+    image: redis:6.2.4
+    ports:
+    - "6380:6379"
+    volumes:
+    - /root/docker/redis/redis_Master/conf/redis.conf:/etc/redis.conf
+    - /root/docker/redis/redis_Master/data/:/data/
+    networks:
+      - redis
+  redis_Slave01:
+    container_name: redis_Slave01
+    image: redis:6.2.4
+    ports:
+    - "6381:6379"
+    volumes:
+    - /root/docker/redis/redis_Slave01/conf/redis.conf:/etc/redis.conf
+    - /root/docker/redis/redis_Slave01/data/:/data/
+    networks:
+      - redis
+  redis_Slave02:
+    container_name: redis_Slave02
+    image: redis:6.2.4
+    ports:
+    - "6382:6379"
+    volumes:
+    - /root/docker/redis/redis_Slave02/conf/redis.conf:/etc/redis.conf
+    - /root/docker/redis/redis_Slave02/data/:/data/
+    networks:
+      - redis
+  redis_Slave03:
+    container_name: redis_Slave03
+    image: redis:6.2.4
+    ports:
+    - "6383:6379"
+    volumes:
+    - /root/docker/redis/redis_Slave03/conf/redis.conf:/etc/redis.conf
+    - /root/docker/redis/redis_Slave03/conf/redis-sentinel.conf:/etc/redis-sentinel.conf
+    - /root/docker/redis/redis_Slave03/data/:/data/
+    networks:
+      - redis
+
+
+
+networks:
+  redis:
